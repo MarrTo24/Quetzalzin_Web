@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quetzalzin — Cosmética Natural & Velas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #FAF6F0;
+    --dark: #1A1209;
+    --warm: #C8956B;
+    --sage: #7A9170;
+    --gold: #B8943F;
+    --light-sage: #E8EDE5;
+    --text-muted: #6B5F52;
+    --border: rgba(26,18,9,0.12);
+    --card-bg: #FFFDF9;
+    --shadow: 0 4px 24px rgba(26,18,9,0.08);
+    --shadow-lg: 0 12px 48px rgba(26,18,9,0.14);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family:'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity:0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top:0; z-index:100;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items:center; justify-content:space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    font-family:'Playfair Display', serif;
+    font-size: 1.5rem; font-weight:900;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--warm); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style:none;
+  }
+  .nav-links a {
+    font-size:0.85rem; font-weight:500; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text-muted);
+    text-decoration:none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--dark); }
+  .cart-btn {
+    position:relative; background:none; border:none; cursor:pointer;
+    font-size:1.4rem; color:var(--dark); padding:4px;
+  }
+  .cart-count {
+    position:absolute; top:-4px; right:-6px;
+    background: var(--warm); color:#fff;
+    font-size:0.65rem; font-weight:700;
+    width:18px; height:18px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Jost', sans-serif;
+    opacity:0; transform:scale(0.5);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .cart-count.visible { opacity:1; transform:scale(1); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 92vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 0;
+    padding: 6rem 8% 4rem;
+    position: relative; overflow:hidden;
+  }
+  .hero-bg-circle {
+    position:absolute; right:-10%; top:5%;
+    width: 55vw; height: 55vw; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,149,107,0.12) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-content { position:relative; z-index:1; }
+  .hero-eyebrow {
+    font-size:0.78rem; letter-spacing:0.2em; text-transform:uppercase;
+    color: var(--warm); font-weight:500; margin-bottom:1.2rem;
+    display:flex; align-items:center; gap:0.8rem;
+  }
+  .hero-eyebrow::before {
+    content:''; display:block; width:32px; height:1px; background:var(--warm);
+  }
+  .hero-title {
+    font-family:'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 1.05; font-weight:900;
+    color: var(--dark); margin-bottom:1.5rem;
+  }
+  .hero-title em { font-style:italic; color:var(--warm); }
+  .hero-desc {
+    font-size:1rem; line-height:1.8; color:var(--text-muted);
+    max-width:420px; margin-bottom:2.5rem; font-weight:300;
+  }
+  .hero-ctas { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn-primary {
+    background: var(--dark); color:#fff;
+    padding:0.85rem 2rem; border:none; cursor:pointer;
+    font-family:'Jost', sans-serif; font-size:0.85rem;
+    font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    text-decoration:none; transition: background 0.2s, transform 0.15s;
+    display:inline-block;
+  }
+  .btn-primary:hover { background: var(--warm); transform:translateY(-1px); }
+  .btn-outline {
+    background: transparent; color:var(--dark);
+    padding:0.85rem 2rem; border:1.5px solid var(--dark); cursor:pointer;
+    font-family:'Jost', sans-serif; font-size:0.85rem;
+    font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    text-decoration:none; transition: all 0.2s; display:inline-block;
+  }
+  .btn-outline:hover { background:var(--dark); color:#fff; }
+  .hero-visual {
+    display:flex; justify-content:center; align-items:center;
+    position:relative;
+  }
+  .hero-ornament {
+    width: min(420px, 42vw); aspect-ratio:1;
+    border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%;
+    background: linear-gradient(135deg, var(--light-sage) 0%, rgba(200,149,107,0.15) 100%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:8rem; position:relative;
+    animation: morph 8s ease-in-out infinite;
+  }
+  @keyframes morph {
+    0%,100% { border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%; }
+    50% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
+  }
+  .hero-stats {
+    position:absolute; bottom:-1rem; right:0;
+    display:flex; gap:2rem;
+  }
+  .stat { text-align:center; }
+  .stat-number {
+    font-family:'Playfair Display', serif;
+    font-size:2rem; font-weight:900; color:var(--dark); line-height:1;
+  }
+  .stat-label {
+    font-size:0.72rem; color:var(--text-muted); letter-spacing:0.06em;
+    text-transform:uppercase; margin-top:0.3rem;
+  }
+
+  /* ── SECTIONS ── */
+  section { position:relative; z-index:1; }
+  .section-header {
+    text-align:center; margin-bottom:3.5rem; padding:0 5%;
+  }
+  .section-eyebrow {
+    font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--warm); font-weight:500; margin-bottom:0.8rem;
+  }
+  .section-title {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.8rem, 3vw, 2.8rem); font-weight:700;
+    color:var(--dark); line-height:1.1;
+  }
+  .section-title em { font-style:italic; color:var(--warm); }
+  .section-subtitle {
+    font-size:0.95rem; color:var(--text-muted); margin-top:0.8rem;
+    font-weight:300; max-width:500px; margin-left:auto; margin-right:auto;
+    line-height:1.7;
+  }
+
+  /* ── CATEGORY TABS ── */
+  .category-section { padding:5rem 5%; }
+  .tabs {
+    display:flex; gap:0.5rem; justify-content:center;
+    flex-wrap:wrap; margin-bottom:3rem;
+  }
+  .tab-btn {
+    padding:0.6rem 1.5rem; border:1.5px solid var(--border);
+    background:none; cursor:pointer; font-family:'Jost', sans-serif;
+    font-size:0.82rem; font-weight:500; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--text-muted);
+    transition: all 0.2s; border-radius:0;
+  }
+  .tab-btn:hover { border-color:var(--warm); color:var(--dark); }
+  .tab-btn.active {
+    background:var(--dark); color:#fff; border-color:var(--dark);
+  }
+
+  /* ── PRODUCT GRID ── */
+  .products-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:1.5rem; max-width:1200px; margin:0 auto;
+  }
+  .product-card {
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    overflow:hidden; transition: transform 0.25s, box-shadow 0.25s;
+    display:flex; flex-direction:column;
+  }
+  .product-card:hover {
+    transform:translateY(-4px); box-shadow:var(--shadow-lg);
+  }
+  .product-img {
+    width:100%; aspect-ratio:4/3; overflow:hidden;
+    background:var(--light-sage);
+    display:flex; align-items:center; justify-content:center;
+    font-size:4rem; position:relative;
+  }
+  .product-badge {
+    position:absolute; top:0.8rem; left:0.8rem;
+    background:var(--warm); color:#fff;
+    font-size:0.65rem; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; padding:0.3rem 0.7rem;
+  }
+  .product-body { padding:1.2rem; flex:1; display:flex; flex-direction:column; }
+  .product-category {
+    font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--warm); font-weight:500; margin-bottom:0.4rem;
+  }
+  .product-name {
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;
+    line-height:1.2; color:var(--dark);
+  }
+  .product-desc {
+    font-size:0.8rem; color:var(--text-muted); line-height:1.6;
+    font-weight:300; flex:1; margin-bottom:1rem;
+  }
+  .product-footer {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:auto;
+  }
+  .product-price {
+    font-family:'Playfair Display', serif;
+    font-size:1.4rem; font-weight:900; color:var(--dark);
+  }
+  .product-price-small {
+    font-size:0.7rem; font-weight:400; color:var(--text-muted);
+    font-family:'Jost', sans-serif; display:block;
+  }
+  .add-to-cart {
+    background:var(--dark); color:#fff;
+    border:none; cursor:pointer;
+    width:40px; height:40px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; transition: background 0.2s, transform 0.15s;
+    flex-shrink:0;
+  }
+  .add-to-cart:hover { background:var(--warm); transform:scale(1.08); }
+  .variant-select {
+    font-family:'Jost', sans-serif; font-size:0.78rem;
+    border:1px solid var(--border); background:transparent;
+    padding:0.3rem 0.5rem; color:var(--dark); margin-bottom:0.5rem;
+    cursor:pointer; width:100%;
+  }
+
+  /* ── SERVICES SECTION ── */
+  .services-section {
+    background: var(--dark); color:#fff; padding:6rem 5%;
+  }
+  .services-section .section-title { color:#fff; }
+  .services-section .section-eyebrow { color:var(--warm); }
+  .services-section .section-subtitle { color:rgba(255,255,255,0.55); }
+  .services-grid {
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap:1.5rem; max-width:1100px; margin:0 auto 3rem;
+  }
+  .service-card {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    padding:2rem; transition: border-color 0.2s, background 0.2s;
+    cursor:pointer; position:relative; overflow:hidden;
+  }
+  .service-card::before {
+    content:''; position:absolute; left:0; bottom:0;
+    width:3px; height:0; background:var(--warm);
+    transition: height 0.3s;
+  }
+  .service-card:hover { border-color:rgba(200,149,107,0.4); background:rgba(200,149,107,0.07); }
+  .service-card:hover::before { height:100%; }
+  .service-icon { font-size:2.2rem; margin-bottom:1rem; display:block; }
+  .service-name {
+    font-family:'Playfair Display', serif;
+    font-size:1.25rem; font-weight:700; margin-bottom:0.6rem;
+    color:#fff;
+  }
+  .service-desc { font-size:0.82rem; color:rgba(255,255,255,0.55); line-height:1.7; font-weight:300; }
+  .service-promo {
+    display:inline-block; margin-top:1rem;
+    background:var(--warm); color:#fff;
+    font-size:0.7rem; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; padding:0.35rem 0.8rem;
+  }
+  .service-price {
+    display:block; margin-top:0.8rem;
+    font-family:'Playfair Display', serif;
+    font-size:1.5rem; font-weight:900; color:var(--warm);
+  }
+
+  /* ── APPOINTMENT FORM ── */
+  .appointment-section { padding:6rem 5%; background:var(--light-sage); }
+  .appointment-container {
+    max-width:700px; margin:0 auto;
+    background:var(--card-bg); border:1px solid var(--border);
+    padding:3rem;
+  }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .form-group { display:flex; flex-direction:column; gap:0.5rem; }
+  .form-group.full { grid-column:1/-1; }
+  label {
+    font-size:0.75rem; font-weight:600; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--text-muted);
+  }
+  input, select, textarea {
+    font-family:'Jost', sans-serif; font-size:0.92rem;
+    border:1px solid var(--border); background:var(--cream);
+    padding:0.75rem 1rem; color:var(--dark);
+    transition:border-color 0.2s; outline:none; width:100%;
+  }
+  input:focus, select:focus, textarea:focus { border-color:var(--warm); }
+  textarea { resize:vertical; min-height:90px; }
+  .submit-btn {
+    width:100%; margin-top:1.5rem;
+    background:var(--dark); color:#fff; border:none; cursor:pointer;
+    font-family:'Jost', sans-serif; font-size:0.9rem;
+    font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    padding:1rem; transition:background 0.2s;
+  }
+  .submit-btn:hover { background:var(--warm); }
+  .form-success {
+    display:none; text-align:center; padding:2rem;
+    color:var(--sage); font-size:1.1rem;
+  }
+
+  /* ── PROMO SECTION ── */
+  .promos-section { padding:5rem 5%; }
+  .promos-grid {
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap:1.5rem; max-width:1100px; margin:0 auto;
+  }
+  .promo-card {
+    border:2px dashed var(--warm); padding:2rem;
+    background:linear-gradient(135deg, rgba(200,149,107,0.05) 0%, transparent 100%);
+    position:relative; overflow:hidden;
+  }
+  .promo-badge {
+    position:absolute; top:1rem; right:1rem;
+    background:var(--warm); color:#fff;
+    font-size:0.65rem; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; padding:0.3rem 0.7rem; border-radius:100px;
+  }
+  .promo-title {
+    font-family:'Playfair Display', serif;
+    font-size:1.3rem; font-weight:700; margin-bottom:0.5rem;
+  }
+  .promo-desc { font-size:0.82rem; color:var(--text-muted); line-height:1.6; font-weight:300; }
+  .promo-price-wrapper { margin-top:1rem; display:flex; align-items:baseline; gap:0.8rem; }
+  .promo-price-old {
+    font-size:0.95rem; color:var(--text-muted);
+    text-decoration:line-through; font-weight:400;
+  }
+  .promo-price-new {
+    font-family:'Playfair Display', serif;
+    font-size:1.8rem; font-weight:900; color:var(--warm);
+  }
+
+  /* ── CART DRAWER ── */
+  .cart-overlay {
+    position:fixed; inset:0; z-index:200;
+    background:rgba(26,18,9,0.5); backdrop-filter:blur(4px);
+    opacity:0; pointer-events:none; transition:opacity 0.3s;
+  }
+  .cart-overlay.open { opacity:1; pointer-events:all; }
+  .cart-drawer {
+    position:fixed; top:0; right:0; bottom:0; z-index:201;
+    width: min(420px, 95vw);
+    background:var(--cream); border-left:1px solid var(--border);
+    display:flex; flex-direction:column;
+    transform:translateX(100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: -12px 0 48px rgba(26,18,9,0.15);
+  }
+  .cart-drawer.open { transform:translateX(0); }
+  .cart-header {
+    padding:1.5rem; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .cart-title {
+    font-family:'Playfair Display', serif;
+    font-size:1.25rem; font-weight:700;
+  }
+  .close-cart {
+    background:none; border:none; cursor:pointer; font-size:1.2rem;
+    color:var(--text-muted); transition:color 0.2s; padding:4px;
+  }
+  .close-cart:hover { color:var(--dark); }
+  .cart-items { flex:1; overflow-y:auto; padding:1rem 1.5rem; }
+  .cart-empty {
+    text-align:center; padding:3rem 1rem;
+    color:var(--text-muted); font-size:0.9rem; font-weight:300;
+  }
+  .cart-item {
+    display:flex; gap:1rem; align-items:flex-start;
+    padding:1rem 0; border-bottom:1px solid var(--border);
+    animation: slideIn 0.2s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform:translateX(10px); } }
+  .cart-item-icon { font-size:2rem; flex-shrink:0; }
+  .cart-item-info { flex:1; }
+  .cart-item-name { font-weight:600; font-size:0.9rem; margin-bottom:0.2rem; }
+  .cart-item-variant { font-size:0.75rem; color:var(--text-muted); }
+  .cart-item-price { font-family:'Playfair Display', serif; font-size:1rem; font-weight:700; margin-top:0.3rem; }
+  .cart-item-controls { display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem; }
+  .qty-btn {
+    background:none; border:1px solid var(--border); cursor:pointer;
+    width:26px; height:26px; font-size:1rem;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.15s; color:var(--dark);
+  }
+  .qty-btn:hover { background:var(--dark); color:#fff; }
+  .qty-value { font-weight:600; font-size:0.9rem; min-width:20px; text-align:center; }
+  .remove-item { background:none; border:none; cursor:pointer; color:var(--text-muted); margin-left:auto; font-size:0.9rem; transition:color 0.15s; }
+  .remove-item:hover { color:#c0392b; }
+  .cart-footer { padding:1.5rem; border-top:1px solid var(--border); }
+  .cart-total-row { display:flex; justify-content:space-between; margin-bottom:1.2rem; }
+  .cart-total-label { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); }
+  .cart-total-amount { font-family:'Playfair Display', serif; font-size:1.5rem; font-weight:900; }
+  .whatsapp-btn {
+    width:100%; padding:1rem;
+    background:#25D366; color:#fff; border:none; cursor:pointer;
+    font-family:'Jost', sans-serif; font-size:0.9rem;
+    font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    display:flex; align-items:center; justify-content:center; gap:0.6rem;
+    transition: background 0.2s; text-decoration:none;
+  }
+  .whatsapp-btn:hover { background:#1ebe5d; }
+
+  /* ── FAQ STRIP ── */
+  .faq-strip { background:var(--dark); color:#fff; padding:4rem 5%; }
+  .faq-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2rem; max-width:1100px; margin:0 auto; }
+  .faq-item { border-top:1px solid rgba(255,255,255,0.15); padding-top:1.2rem; }
+  .faq-q { font-size:0.8rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--warm); margin-bottom:0.6rem; }
+  .faq-a { font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.65; font-weight:300; }
+
+  /* ── FOOTER ── */
+  footer {
+    background:var(--dark); color:rgba(255,255,255,0.5);
+    padding:3rem 5% 2rem; border-top:1px solid rgba(255,255,255,0.08);
+    text-align:center;
+  }
+  .footer-logo {
+    font-family:'Playfair Display', serif;
+    font-size:1.8rem; font-weight:900; color:#fff; margin-bottom:0.8rem;
+  }
+  .footer-logo span { color:var(--warm); }
+  .footer-tagline { font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:300; margin-bottom:1.5rem; }
+  .social-links { display:flex; gap:1.5rem; justify-content:center; margin-bottom:2rem; }
+  .social-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; transition:color 0.2s; }
+  .social-links a:hover { color:var(--warm); }
+  .footer-copy { font-size:0.72rem; }
+
+  /* ── NOTIFICATION ── */
+  .toast {
+    position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--dark); color:#fff; padding:0.75rem 1.5rem;
+    font-size:0.82rem; font-weight:500; z-index:300; opacity:0;
+    transition:opacity 0.3s, transform 0.3s; white-space:nowrap;
+  }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ── MOBILE ── */
+  @media(max-width:768px) {
+    .hero { grid-template-columns:1fr; padding:4rem 6% 3rem; min-height:auto; }
+    .hero-visual { display:none; }
+    .form-grid { grid-template-columns:1fr; }
+    .nav-links { display:none; }
+    .tabs { gap:0.4rem; }
+    .tab-btn { padding:0.5rem 1rem; font-size:0.75rem; }
+    .appointment-container { padding:1.5rem; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Quetzal<span>zin</span></a>
+  <ul class="nav-links">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#promociones">Promociones</a></li>
+    <li><a href="#cita">Agenda Cita</a></li>
+  </ul>
+  <button class="cart-btn" onclick="toggleCart()" aria-label="Carrito">
+    🛒<span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Cosmética Natural & Velas Artesanales</p>
+    <h1 class="hero-title">Arte &amp; Natura<em>leza</em><br/>en cada gota</h1>
+    <p class="hero-desc">Productos artesanales elaborados con ingredientes naturales, aceites esenciales y extractos botánicos. Cuidado genuino para cuerpo y alma.</p>
+    <div class="hero-ctas">
+      <a href="#productos" class="btn-primary">Ver Catálogo</a>
+      <a href="#cita" class="btn-outline">Agenda una cita</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-ornament">🌿</div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">13+</div>
+        <div class="stat-label">Productos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Natural</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Servicios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="category-section" id="productos">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Catálogo Completo</p>
+    <h2 class="section-title">Nuestros <em>Productos</em></h2>
+    <p class="section-subtitle">Elaborados a mano con ingredientes naturales y extractos botánicos seleccionados.</p>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" onclick="filterProducts('all',this)">Todos</button>
+    <button class="tab-btn" onclick="filterProducts('cosmetica',this)">Cosmética</button>
+    <button class="tab-btn" onclick="filterProducts('cabello',this)">Cabello</button>
+    <button class="tab-btn" onclick="filterProducts('corporal',this)">Corporal</button>
+    <button class="tab-btn" onclick="filterProducts('velas',this)">Velas</button>
+    <button class="tab-btn" onclick="filterProducts('accesorios',this)">Accesorios</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- PROMOTIONS -->
+<section class="promos-section" id="promociones">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Ofertas Especiales</p>
+    <h2 class="section-title">Promo<em>ciones</em></h2>
+    <p class="section-subtitle">Combos y descuentos pensados para que te cuides más por menos.</p>
+  </div>
+  <div class="promos-grid" id="promosGrid"></div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="servicios">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Tratamientos & Bienestar</p>
+    <h2 class="section-title" style="color:#fff">Nuestros <em>Servicios</em></h2>
+    <p class="section-subtitle">Tratamientos profesionales con técnicas naturales para tu bienestar total.</p>
+  </div>
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<!-- APPOINTMENT FORM -->
+<section class="appointment-section" id="cita">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Agenda tu cita</p>
+    <h2 class="section-title">¿Cuándo te <em>vemos</em>?</h2>
+    <p class="section-subtitle">Llena el formulario y te contactamos para confirmar tu cita.</p>
+  </div>
+  <div class="appointment-container reveal">
+    <form id="citaForm" onsubmit="submitCita(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="citaNombre" required placeholder="Tu nombre"/>
+        </div>
+        <div class="form-group">
+          <label>Teléfono / WhatsApp</label>
+          <input type="tel" id="citaTel" required placeholder="+52 55 1234 5678"/>
+        </div>
+        <div class="form-group full">
+          <label>Servicio de interés</label>
+          <select id="citaServicio" required>
+            <option value="">— Selecciona un servicio —</option>
+            <option>Depilación con Luz Pulsada (IPL)</option>
+            <option>Masaje Terapéutico</option>
+            <option>Masaje Relajante</option>
+            <option>Masaje Descontracturante</option>
+            <option>Reflexología</option>
+            <option>Tratamiento Facial Natural</option>
+            <option>Consultoría de Cosmética Natural</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha preferida</label>
+          <input type="date" id="citaFecha" required/>
+        </div>
+        <div class="form-group">
+          <label>Horario preferido</label>
+          <select id="citaHorario">
+            <option>Mañana (9–12h)</option>
+            <option>Tarde (12–15h)</option>
+            <option>Tarde-noche (15–18h)</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Comentarios adicionales</label>
+          <textarea id="citaComentarios" placeholder="Cuéntanos más sobre lo que buscas o si tienes alguna condición de salud relevante..."></textarea>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">Enviar solicitud por WhatsApp →</button>
+    </form>
+    <div class="form-success" id="citaSuccess">
+      ✅ ¡Solicitud enviada! Te contactaremos pronto para confirmar tu cita.
+    </div>
+  </div>
+</section>
+
+<!-- FAQ STRIP -->
+<section class="faq-strip">
+  <div class="faq-grid">
+    <div class="faq-item">
+      <p class="faq-q">¿Métodos de pago?</p>
+      <p class="faq-a">Transferencia bancaria o efectivo al momento de la entrega.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Tiempo de envío?</p>
+      <p class="faq-a">2 a 3 días hábiles según disponibilidad del producto.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Puntos de entrega?</p>
+      <p class="faq-a">Metro CU, Metrobús Universidad, Perisur, Estadio Azteca, estaciones de metro con recolectora, Correos de México o DHL.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">¿Personalización?</p>
+      <p class="faq-a">Velas y accesorios disponibles en colores personalizados según existencias. ¡Escríbenos!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Quetzal<span>zin</span></div>
+  <p class="footer-tagline">Arte & Naturaleza en cada producto</p>
+  <div class="social-links">
+    <a href="https://wa.me/5215626277691" target="_blank">WhatsApp</a>
+    <a href="https://www.instagram.com/quetzalzin.prod_artesanal" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/QuetzalzinArtesanalProd" target="_blank">Facebook</a>
+    <a href="https://www.tiktok.com/@quetzalzinprodartesanal" target="_blank">TikTok</a>
+  </div>
+  <p class="footer-copy">© 2025 Quetzalzin Productos Artesanales · Hecho con 💚 en México</p>
+</footer>
+
+<!-- CART OVERLAY & DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <span class="cart-title">Tu Carrito 🛒</span>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Tu carrito está vacío.<br/>¡Agrega algo hermoso! 🌿</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cartTotal">$0</span>
+    </div>
+    <a href="#" id="whatsappCheckout" class="whatsapp-btn" target="_blank">
+      <span>💬</span> Pedir por WhatsApp
+    </a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─────────────── DATA ─────────────── */
+const products = [
+  { id:1, name:'Bálsamo Mágico', cat:'cosmetica', price:215, emoji:'🌿', badge:'Best Seller',
+    desc:'Extractos de cannabis, romero, eucalipto, ortiga y albahaca. Alivia dolores articulares y quemaduras.', size:'120 ml' },
+  { id:2, name:'Gel Mágico', cat:'cosmetica', price:120, emoji:'💚',
+    desc:'Cannabis, ruda y árnica. Textura ligera para alivio instantáneo de dolores musculares y articulares.', size:'130 ml' },
+  { id:3, name:'Sérum Facial', cat:'cosmetica', price:150, emoji:'✨', badge:'Nuevo',
+    desc:'Colágeno, aloe vera y vitamina E para una piel firme, hidratada y radiante.', size:'50 ml' },
+  { id:4, name:'Shampoo Hidratante', cat:'cabello', price:null, emoji:'🌸',
+    desc:'Romero y ortiga para revitalizar y nutrir. Cabello suave, manejable y radiante.',
+    variants:[{label:'250 ml',price:120},{label:'490 ml',price:150}] },
+  { id:5, name:'Jabón Artesanal Natural', cat:'corporal', price:30, emoji:'🧼',
+    desc:'Miel, avena y caléndula. Cada barra es una obra maestra de ingredientes puros para tu piel.' },
+  { id:6, name:'Jabón Artesanal Planta', cat:'corporal', price:40, emoji:'🌱',
+    desc:'Romero y extractos botánicos. Limpieza natural con propiedades únicas de la flora.', badge:'Hervido' },
+  { id:7, name:'Sal Exfoliante', cat:'corporal', price:60, emoji:'🪸',
+    desc:'Cristales de sal marina y aceites esenciales que rejuvenecen y suavizan la piel.', size:'90 gr' },
+  { id:8, name:'Crema Corporal', cat:'corporal', price:null, emoji:'🤍',
+    desc:'Aloe vera con ingredientes nutritivos para una piel suave, revitalizada y profundamente nutrida.',
+    variants:[{label:'250 ml',price:140},{label:'490 ml',price:170}] },
+  { id:9, name:'Crema Varices', cat:'corporal', price:180, emoji:'🫒',
+    desc:'Tinturas de ajo, árnica, ginkgo biloba y cannabis. Mejora la circulación y reduce la incomodidad.', size:'250 ml' },
+  { id:10, name:'Gel Reductivo', cat:'corporal', price:140, emoji:'💪',
+    desc:'Ginkgo biloba, árnica y menta para reducir la celulitis y promover firmeza en la piel.', size:'250 ml' },
+  { id:11, name:'Lashes Tratamiento', cat:'cosmetica', price:80, emoji:'👁️',
+    desc:'Romero, vitamina E y aceites esenciales para pestañas más fuertes, nutridas y voluminosas.', size:'6 ml' },
+  { id:12, name:'Vela Rectangular', cat:'velas', price:110, emoji:'🕯️',
+    desc:'Cera de soya premium. Base 5.7×5.7 cm, altura 8.7 cm. Disponible en varios colores.' },
+  { id:13, name:'Vela Bola de Estambre', cat:'velas', price:80, emoji:'🧶',
+    desc:'Forma tejida única. 5.7 cm ancho × 5 cm alto. Cera de soya con esencias elegibles.' },
+  { id:14, name:'Vela Arcoíris', cat:'velas', price:150, emoji:'🌈',
+    desc:'Forma arquitectónica. 4 cm grosor, 8.1 cm ancho × 14.1 cm largo.', badge:'Favorita' },
+  { id:15, name:'Vela Burbuja', cat:'velas', price:100, emoji:'🫧',
+    desc:'Diseño tridimensional burbuja. 5.5 × 5.5 cm. Cera de soya de la más alta calidad.' },
+  { id:16, name:'Velas Hermanas', cat:'velas', price:210, emoji:'🕯️',
+    desc:'Duo de velas cilíndricas: chica Ø4.8×7.8 cm y grande Ø5.5×12.3 cm. Set decorativo.' },
+  { id:17, name:'Vela Pino Chico', cat:'velas', price:130, emoji:'🌲',
+    desc:'Vela navideña 7 cm ancho × 9.2 cm. Forma de pino detallada.' },
+  { id:18, name:'Vela Pino Grande', cat:'velas', price:160, emoji:'🌲',
+    desc:'Vela navideña premium 7.4 cm ancho × 12.5 cm. Decoración especial de temporada.' },
+  { id:19, name:'Plato Chico', cat:'accesorios', price:100, emoji:'🪨',
+    desc:'Accesorio de cemento. 18.5 × 10 cm, 2 cm grosor. Personalizable en 6 colores.' },
+  { id:20, name:'Plato Grande', cat:'accesorios', price:130, emoji:'🪨',
+    desc:'Accesorio de cemento. 24 × 12 cm, 2 cm grosor. Base perfecta para tus velas.' },
+  { id:21, name:'Set: Plato Chico + Vela', cat:'accesorios', price:180, emoji:'✨',
+    desc:'Plato chico de cemento 18.5×10 cm con vela pequeña Ø6.3 × 3.9 cm incluida.' },
+  { id:22, name:'Set: Plato Grande + 1 Vela', cat:'accesorios', price:200, emoji:'✨',
+    desc:'Plato grande 24×12 cm con una vela pequeña. Combinación perfecta para el hogar.' },
+  { id:23, name:'Set: Plato Grande + 2 Velas', cat:'accesorios', price:230, emoji:'✨', badge:'Popular',
+    desc:'Plato grande 24×12 cm con dos velas pequeñas. Ideal como regalo.' },
+  { id:24, name:'Set: Plato + Portavelas Difusor', cat:'accesorios', price:260, emoji:'🌸',
+    desc:'Plato grande con portavelas difusor para 3 velas pequeñas. 18 cm largo × 6 cm ancho.' },
+  { id:25, name:'Set: Plato + Portavelas Cilindro', cat:'accesorios', price:300, emoji:'🕯️',
+    desc:'Plato grande con portavelas cilíndrico de 14.5×14.6 cm. Diseño moderno y elegante.' },
+];
+
+const services = [
+  { icon:'✨', name:'Depilación con Luz Pulsada (IPL)', desc:'Tecnología de luz pulsada para una depilación efectiva y duradera. Apta para diversas zonas del cuerpo. Resultados desde la primera sesión.', promo:'Paquete de 6 sesiones', price:'Consultar precio' },
+  { icon:'🌿', name:'Masaje Terapéutico', desc:'Técnicas especializadas para aliviar dolores musculares, tensiones y mejorar la circulación. Usando aceites naturales de nuestra línea artesanal.', price:'Consultar precio' },
+  { icon:'🧘', name:'Masaje Relajante', desc:'Libérate del estrés con un masaje corporal completo. Aromaterapia con nuestras esencias naturales para una experiencia spa en tu ciudad.', price:'Consultar precio' },
+  { icon:'💆', name:'Masaje Descontracturante', desc:'Técnica profunda para liberar contracturas y puntos de tensión. Ideal para personas con trabajo sedentario o actividad física intensa.', promo:'¡Nuevo!', price:'Consultar precio' },
+  { icon:'🦶', name:'Reflexología', desc:'Estimulación de puntos reflejos en pies y manos para mejorar el bienestar general, aliviar el estrés y promover el equilibrio del organismo.', price:'Consultar precio' },
+  { icon:'🌸', name:'Tratamiento Facial Natural', desc:'Limpieza profunda, exfoliación e hidratación con nuestros productos artesanales: sérum, cremas y extractos botánicos seleccionados.', price:'Consultar precio' },
+];
+
+const promos = [
+  { title:'Combo Relajación Total', desc:'Crema Corporal (250 ml) + Sal Exfoliante + Vela Aromática de tu elección. El regalo perfecto para el cuidado personal.', oldPrice:230, newPrice:199, badge:'Ahorra $31' },
+  { title:'Kit Anti-Dolor', desc:'Bálsamo Mágico + Gel Mágico. Dúo poderoso con extractos botánicos para alivio completo de dolores musculares y articulares.', oldPrice:335, newPrice:299, badge:'Ahorra $36' },
+  { title:'Ritual Capilar', desc:'Shampoo Hidratante 490 ml + Sérum para Pestañas. Cuida cada detalle de tu cabello y mirada con ingredientes 100% naturales.', oldPrice:230, newPrice:199, badge:'Ahorra $31' },
+  { title:'Set Decorativo Premium', desc:'Vela Arcoíris + Plato Grande de Cemento personalizable. El set perfecto para transformar cualquier rincón de tu hogar.', oldPrice:280, newPrice:249, badge:'Ahorra $31' },
+  { title:'Pack Bienestar Completo', desc:'Crema Varices + Gel Reductivo + Crema Corporal Chica. Rutina integral para piernas y piel corporal.', oldPrice:460, newPrice:399, badge:'Ahorra $61' },
+  { title:'Sesión IPL + Masaje', desc:'Combina tu sesión de depilación con luz pulsada con un masaje relajante de 60 min. El duo de bienestar definitivo.', oldPrice:null, newPrice:null, badge:'Pregunta disponibilidad', special:true },
+];
+
+/* ─────────────── CART STATE ─────────────── */
+let cart = JSON.parse(localStorage.getItem('qz_cart') || '[]');
+
+function saveCart() {
+  localStorage.setItem('qz_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+function addToCart(productId, variant) {
+  const prod = products.find(p => p.id === productId);
+  if (!prod) return;
+  const price = variant ? variant.price : prod.price;
+  const label = variant ? variant.label : (prod.size || '');
+  const existing = cart.find(i => i.id === productId && i.variant === label);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id:productId, name:prod.name, emoji:prod.emoji, price, variant:label, qty:1 }); }
+  saveCart();
+  showToast(`✅ ${prod.name} agregado al carrito`);
+}
+
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  saveCart();
+}
+
+function changeQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  saveCart();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  // count badge
+  const badge = document.getElementById('cartCount');
+  badge.textContent = count;
+  badge.classList.toggle('visible', count > 0);
+  // total
+  document.getElementById('cartTotal').textContent = `$${total.toLocaleString('es-MX')}`;
+  // footer
+  document.getElementById('cartFooter').style.display = count > 0 ? 'block' : 'none';
+  // items list
+  const container = document.getElementById('cartItems');
+  if (count === 0) {
+    container.innerHTML = '<div class="cart-empty">Tu carrito está vacío.<br/>¡Agrega algo hermoso! 🌿</div>';
+  } else {
+    container.innerHTML = cart.map((item, idx) => `
+      <div class="cart-item">
+        <span class="cart-item-icon">${item.emoji}</span>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          ${item.variant ? `<div class="cart-item-variant">${item.variant}</div>` : ''}
+          <div class="cart-item-price">$${(item.price * item.qty).toLocaleString('es-MX')}</div>
+          <div class="cart-item-controls">
+            <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+            <span class="qty-value">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+            <button class="remove-item" onclick="removeFromCart(${idx})">🗑</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  // WhatsApp link
+  const lines = cart.map(i => `• ${i.name}${i.variant?' ('+i.variant+')':''} x${i.qty} = $${(i.price*i.qty).toLocaleString('es-MX')}`).join('\n');
+  const msg = encodeURIComponent(`¡Hola Quetzalzin! 🌿 Quisiera hacer el siguiente pedido:\n\n${lines}\n\n*Total: $${total.toLocaleString('es-MX')} MXN*\n\n¿Me pueden confirmar disponibilidad? 😊`);
+  document.getElementById('whatsappCheckout').href = `https://wa.me/5215626277691?text=${msg}`;
+}
+
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+/* ─────────────── RENDER PRODUCTS ─────────────── */
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+function renderProducts(cat = 'all') {
+  const list = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = list.map(p => {
+    const hasVariants = p.variants && p.variants.length > 0;
+    const selectId = `sel_${p.id}`;
+    return `
+    <div class="product-card reveal">
+      <div class="product-img">
+        ${p.emoji ? `<span>${p.emoji}</span>` : ''}
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-body">
+        <p class="product-category">${catLabel(p.cat)}</p>
+        <h3 class="product-name">${p.name}</h3>
+        <p class="product-desc">${p.desc}</p>
+        ${hasVariants ? `<select class="variant-select" id="${selectId}">${p.variants.map(v=>`<option value="${v.price}">${v.label} — $${v.price}</option>`).join('')}</select>` : ''}
+        <div class="product-footer">
+          <div class="product-price">
+            ${hasVariants ? `<span id="price_${p.id}">$${p.variants[0].price}</span>` : `$${p.price}`}
+            ${p.size ? `<span class="product-price-small">${p.size}</span>` : ''}
+          </div>
+          <button class="add-to-cart" onclick="handleAdd(${p.id})" title="Agregar al carrito">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  // update variant selects
+  list.filter(p=>p.variants).forEach(p=>{
+    const sel = document.getElementById(`sel_${p.id}`);
+    if (sel) sel.addEventListener('change', () => {
+      document.getElementById(`price_${p.id}`).textContent = '$' + sel.value;
+    });
+  });
+  observeReveal();
+}
+
+function handleAdd(id) {
+  const prod = products.find(p=>p.id===id);
+  if (prod.variants) {
+    const sel = document.getElementById(`sel_${id}`);
+    const idx = sel.selectedIndex;
+    addToCart(id, prod.variants[idx]);
+  } else {
+    addToCart(id);
+  }
+}
+
+function catLabel(c) {
+  return { cosmetica:'Cosmética', cabello:'Cabello', corporal:'Corporal', velas:'Velas', accesorios:'Accesorios' }[c] || c;
+}
+
+/* ─────────────── RENDER SERVICES ─────────────── */
+function renderServices() {
+  document.getElementById('servicesGrid').innerHTML = services.map(s => `
+    <div class="service-card reveal" onclick="document.getElementById('cita').scrollIntoView({behavior:'smooth'})">
+      <span class="service-icon">${s.icon}</span>
+      <div class="service-name">${s.name}</div>
+      <div class="service-desc">${s.desc}</div>
+      ${s.promo ? `<span class="service-promo">${s.promo}</span>` : ''}
+      <span class="service-price">${s.price}</span>
+    </div>`).join('');
+}
+
+/* ─────────────── RENDER PROMOS ─────────────── */
+function renderPromos() {
+  document.getElementById('promosGrid').innerHTML = promos.map(p => `
+    <div class="promo-card reveal">
+      ${p.badge ? `<span class="promo-badge">${p.badge}</span>` : ''}
+      <div class="promo-title">${p.title}</div>
+      <div class="promo-desc">${p.desc}</div>
+      <div class="promo-price-wrapper">
+        ${p.oldPrice ? `<span class="promo-price-old">$${p.oldPrice}</span>` : ''}
+        <span class="promo-price-new">${p.newPrice ? '$'+p.newPrice : 'Consultar'}</span>
+      </div>
+      ${!p.special ? `<button class="btn-primary" style="margin-top:1rem;font-size:0.78rem;padding:0.65rem 1.3rem" onclick="addPromoToCart('${p.title}',${p.newPrice})">Agregar al carrito</button>` : `<a href="#cita" class="btn-outline" style="margin-top:1rem;font-size:0.78rem;padding:0.65rem 1.3rem;display:inline-block">Consultar disponibilidad</a>`}
+    </div>`).join('');
+}
+
+function addPromoToCart(name, price) {
+  if (!price) { showToast('📱 Escríbenos para consultar el precio'); return; }
+  const existing = cart.find(i=>i.name===name && i.variant==='Promo');
+  if (existing) existing.qty++;
+  else cart.push({id:Date.now(), name, emoji:'🎁', price, variant:'Promo', qty:1});
+  saveCart();
+  showToast(`✅ ${name} agregado`);
+}
+
+/* ─────────────── APPOINTMENT ─────────────── */
+function submitCita(e) {
+  e.preventDefault();
+  const nombre = document.getElementById('citaNombre').value;
+  const tel = document.getElementById('citaTel').value;
+  const servicio = document.getElementById('citaServicio').value;
+  const fecha = document.getElementById('citaFecha').value;
+  const horario = document.getElementById('citaHorario').value;
+  const comentarios = document.getElementById('citaComentarios').value;
+  const msg = encodeURIComponent(
+    `¡Hola Quetzalzin! 🌿 Quisiera agendar una cita:\n\n👤 *Nombre:* ${nombre}\n📱 *Teléfono:* ${tel}\n💆 *Servicio:* ${servicio}\n📅 *Fecha:* ${fecha}\n⏰ *Horario:* ${horario}${comentarios?'\n\n💬 '+comentarios:''}\n\n¿Tienen disponibilidad? 🙏`
+  );
+  window.open(`https://wa.me/5215626277691?text=${msg}`, '_blank');
+  document.getElementById('citaForm').style.display = 'none';
+  document.getElementById('citaSuccess').style.display = 'block';
+}
+
+/* ─────────────── TOAST ─────────────── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ─────────────── SCROLL REVEAL ─────────────── */
+function observeReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold:0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ─────────────── INIT ─────────────── */
+renderProducts();
+renderServices();
+renderPromos();
+updateCartUI();
+observeReveal();
+
+// Set min date for cita
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('citaFecha').min = today;
+</script>
+</body>
+</html>
