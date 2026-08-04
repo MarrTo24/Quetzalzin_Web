@@ -23,7 +23,7 @@
   <div class="notice">Citas y pedidos por <a href="https://wa.me/525523278809" target="_blank" rel="noreferrer">WhatsApp</a>. Datos promocionales sujetos a confirmación.</div>
   <header class="wrap"><nav><a class="brand" href="#inicio">Eve Spa <small>× Quetzalzin</small></a><div class="links"><a href="#servicios">Servicios</a><a href="#catalogo">Catálogo</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></div><button class="cart-button" onclick="toggleCart()">Cotización <span id="count">0</span></button></nav></header>
   <main>
-    <section class="hero" id="inicio"><div class="wrap hero-grid"><div><span class="kicker">Bienestar & creación artesanal</span><h1>Un momento para ti.<br><em>Algo hecho para tu hogar.</em></h1><p>Reserva los servicios de Eve Spa y agrega piezas artesanales de Quetzalzin a una sola cotización.</p><div class="hero-actions"><a class="button rose" href="#servicios">Reservar servicio</a><a class="button alt" href="#catalogo">Explorar productos</a></div></div><figure class="hero-card"><img src="assets/eve-facial.png" alt="Promoción de Facial 2x1 de Eve Spa"><figcaption>Tu piel limpia, tu mejor versión <span class="flower">✦</span></figcaption></figure></div></section>
+    <section class="hero" id="inicio"><div class="wrap hero-grid"><div><span class="kicker">Bienestar & creación artesanal</span><h1>Un momento para ti.<br><em>Algo hecho para tu hogar.</em></h1><p>Reserva los servicios de Eve Spa y agrega piezas artesanales de Quetzalzin a una sola cotización.</p><div class="hero-actions"><a class="button rose" href="#servicios">Reservar servicio</a><a class="button alt" href="#catalogo">Explorar productos</a></div></div><figure class="hero-card"><img src="assets/facial_promocion.png" alt="Promoción facial de Eve Spa"><figcaption>Tu piel limpia, tu mejor versión <span class="flower">✦</span></figcaption></figure></div></section>
     <section class="wrap intro"><div><span class="chip">Dos experiencias, una cotización</span><h2>Cuida tu tiempo y elige a tu ritmo.</h2></div><div><p>Eve Spa reúne servicios de cuidado personal. Quetzalzin presenta cosmética, velas y piezas decorativas artesanales. Usa el carrito para preparar tu solicitud y recibir confirmación de disponibilidad por WhatsApp.</p><div class="warning">Los importes del catálogo y las promociones se muestran tal como fueron proporcionados. No se procesan pagos ni se garantizan beneficios médicos.</div></div></section>
     <section class="services" id="servicios"><div class="wrap"><div class="heading"><span class="chip">Eve Spa</span><h2>Servicios y promociones vigentes</h2><p>Selecciona lo que deseas cotizar. Las sesiones, zonas y disponibilidad deben confirmarse directamente con el spa.</p></div><div class="service-grid" id="services"></div></div></section>
     <section class="wrap"><div class="feature"><img src="assets/eve-duore.png" alt="Duore Body en abdomen"><div><span class="chip">Destacado de Eve Spa</span><h2>Duore Body en abdomen</h2><p>Sesión individual de 45 minutos. La publicación proporcionada indica un precio de $400 MXN.</p><ul><li>Fototerapia avanzada y LED infrarrojo (según publicación).</li><li>Cuidado térmico con niveles ajustables (según publicación).</li><li>Pregunta por paquetes y valoración de disponibilidad.</li></ul><button class="button rose" onclick="addService('Duore Body — sesión individual (45 min)',400)">Agregar a cotización · $400</button></div></div></section>
@@ -39,9 +39,9 @@
 const WHATSAPP='525523278809';
 const money=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(n);
 const services=[
- {name:'Depilación IPL — zonas pequeñas (8 sesiones)',price:1500,desc:'Axilas, contorno bikini o línea interglútea.',img:'assets/eve-ipl.png'},
- {name:'Depilación IPL — zonas medianas (8 sesiones)',price:2500,desc:'Espalda, brazos, glúteos o bikini completo.',img:'assets/eve-ipl.png'},
- {name:'Depilación IPL — zonas grandes (8 sesiones)',price:4500,desc:'Piernas completas o cuerpo completo. Precio/zonas sujetos a confirmación.',img:'assets/eve-ipl.png'},
+ {name:'Depilación IPL — zonas pequeñas (8 sesiones)',price:1500,desc:'Axilas, contorno bikini o línea interglútea.',img:'assets/depilacion_zonaspequenas.png'},
+ {name:'Depilación IPL — zonas medianas (8 sesiones)',price:2500,desc:'Espalda, brazos, glúteos o bikini completo.',img:'assets/depilacion_zonasmedianas.png'},
+ {name:'Depilación IPL — zonas grandes (8 sesiones)',price:4500,desc:'Piernas completas o cuerpo completo. Precio/zonas sujetos a confirmación.',img:'assets/depilacion_zonasgrandes.png'},
  {name:'Facial 2x1',price:700,desc:'Incluye hidrafacial, radiofrecuencia y ultrasonido según promoción. Indica 5 sesiones de bigote de regalo.',img:'assets/eve-facial.png'},
  {name:'Sauna — sesiones',price:1800,desc:'Promoción publicada por Eve Spa. Número de sesiones pendiente de confirmar.',img:'assets/eve-sauna.png'}];
 const products=[
@@ -71,7 +71,7 @@ const productsEl=document.getElementById('products');renderServices();renderFilt
     'plato_grande_2_velas.jpg', 'plato_grande_difusor.jpg', 'plato_grande_portavelas.jpg'
   ];
   const serviceImages = {
-    ipl: 'depilacion.png',
+    ipl: ['depilacion_zonaspequenas.png', 'depilacion_zonasmedianas.png', 'depilacion_zonasgrandes.png'],
     facial: 'facial.png',
     sauna: 'sauna.png',
     duore: 'duore_body.png'
@@ -80,7 +80,7 @@ const productsEl=document.getElementById('products');renderServices();renderFilt
   document.querySelector('.feature img').src = assetUrl(serviceImages.duore);
   const brand = document.querySelector('.brand');
   brand.insertAdjacentHTML('afterbegin', '<img class="brand-logo" src="' + assetUrl('logo.png') + '" alt="Logotipo Quetzalzin">');
-  services.forEach((service, index) => service.img = assetUrl(index < 3 ? serviceImages.ipl : index === 3 ? serviceImages.facial : serviceImages.sauna));
+  services.forEach((service, index) => service.img = assetUrl(index < 3 ? serviceImages.ipl[index] : index === 3 ? serviceImages.facial : serviceImages.sauna));
   renderServices();
   products.forEach((product, index) => product.image = productImages[index]);
   renderProducts = function () {
