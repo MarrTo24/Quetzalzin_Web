@@ -1,6 +1,9 @@
 node_modules/
 data/
 .env
+.agents/
+.claude/
+skills-lock.json
 *.log
 .DS_Store
 Thumbs.db
