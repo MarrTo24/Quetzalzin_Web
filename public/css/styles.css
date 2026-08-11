@@ -82,3 +82,36 @@ button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{
   .contact h2{font-size:54px;max-width:540px}
   .contact-box{padding:34px}
 }
+
+/* Galería Quetzalzin: el catálogo debe sentirse como una colección, no como una tabla. */
+@media (min-width:851px){
+  #catalogo{background:linear-gradient(180deg,#fff 0,#fcf9fd 20%,#f7f2fa 100%)}
+  #catalogo .heading{padding-top:2px}
+  #catalogo .heading h2{max-width:530px}
+  #catalogo .catalog-seals{padding-top:8px}
+  .catalog-hero{display:block;position:relative;isolation:isolate;height:460px;margin:8px 0 78px;border-radius:24px;background:#39205f;box-shadow:0 24px 50px #35215e2b}
+  .catalog-hero::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#24103bcf 0%,#39205f68 40%,transparent 70%)}
+  .catalog-hero img{width:100%;height:100%;object-position:center 58%;filter:saturate(.9) contrast(1.03)}
+  .catalog-hero figcaption{position:absolute;inset:auto auto 0 0;width:min(560px,58%);padding:48px 48px 46px;background:transparent}
+  .catalog-hero strong{font-size:48px;line-height:.98;letter-spacing:-.04em}
+  .catalog-hero span{font-size:16px;line-height:1.55;max-width:390px}
+  .catalog-group{margin:0 0 82px}
+  .catalog-group:first-child{margin-top:0}
+  .catalog-group-heading{display:grid;grid-template-columns:minmax(250px,.7fr) 1.3fr;align-items:end;gap:28px;padding:0 0 17px;margin:0 0 28px;border-color:#c8b4d8}
+  .catalog-group-heading h3{font-size:38px;line-height:1;letter-spacing:-.035em}
+  .catalog-group-heading span{justify-self:end;text-align:right;max-width:240px;color:#8e4b79;letter-spacing:.15em}
+  .catalog-group-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+  .product{border:0;border-radius:18px;background:#fff;box-shadow:0 10px 27px #3d245d0d;overflow:hidden}
+  .product:hover{transform:translateY(-7px);box-shadow:0 24px 38px #3d245d21}
+  .product-image{height:292px;padding:24px;background:radial-gradient(circle at 50% 36%,#fff 0 33%,#f3edf7 76%,#e8dcf0 100%);border:0;object-fit:contain;transition:transform .35s ease}
+  .product:hover .product-image{transform:scale(1.025)}
+  .product-body{padding:22px 23px 23px;border-top:1px solid #eee6f2}
+  .product .category{font-size:10px;letter-spacing:.15em;color:#a04775}
+  .product h3{font-size:25px;line-height:1.05;margin:7px 0 10px}
+  .product p{font-size:14px;line-height:1.55;min-height:65px;margin-bottom:17px}
+  .product select{margin-bottom:14px;padding:10px 11px}
+  .product .bottom{padding-top:14px;border-top:1px solid #eee6f2}
+  .product .price{font-size:21px}
+  .product .add{padding:9px 14px;border-color:#cdb6db}
+  .product .add:hover{background:var(--violet);color:#fff;border-color:var(--violet)}
+}
