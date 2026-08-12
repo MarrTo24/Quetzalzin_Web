@@ -18,7 +18,12 @@ app.use((_req, res, next) => {
 });
 
 // El sitio es intencionalmente estático: catálogo y carrito viven en el navegador.
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: '7d' }));
+// Solo /assets (imágenes) usa caché larga: HTML/CSS/JS deben revalidarse siempre para que los cambios se vean de inmediato.
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    res.setHeader('Cache-Control', filePath.includes(path.join('public', 'assets')) ? 'public, max-age=604800' : 'no-cache');
+  }
+}));
 app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.listen(port, () => console.log(`Eve Spa × Quetzalzin: http://localhost:${port}`));
